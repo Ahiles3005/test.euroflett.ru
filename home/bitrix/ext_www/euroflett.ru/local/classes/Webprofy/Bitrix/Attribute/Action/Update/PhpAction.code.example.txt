@@ -1,6 +1,0 @@
-return sprintf(
-	"%d. %s (%s)",
-	$element->field('ID'), // $element - объект текущего элемента (Webprofy\Bitrix\Element)
-	$element->field('NAME'),
-	$current // текущее значение 
-);
