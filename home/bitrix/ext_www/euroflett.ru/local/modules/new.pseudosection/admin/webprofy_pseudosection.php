@@ -2,8 +2,8 @@
 
 ClearVars();
 
-$MODULE_ID = "webprofy.pseudosection";
-$MLANG = "WP_PSEUDOSECTION_";
+$MODULE_ID = "new.pseudosection";
+$MLANG = "WP_PSEUDOSECTION_NEW_";
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 //require_once($_SERVER["DOCUMENT_ROOT"].getLocalPath("modules/".$MODULE_ID."/classes/general/webprofy_pseudosection.php"));
@@ -14,7 +14,7 @@ global $APPLICATION;
 $APPLICATION->SetTitle(GetMessage($MLANG."TITLE"));
 
 $aTabs = array(
-	array("DIV" => "edit1", "TAB" => GetMessage("WP_PSEUDOSECTION_GENERATE_LINKS"), "ICON" => "main_channel_edit", "TITLE" => GetMessage("WP_PSEUDOSECTION_GENERATE_LINKS")),
+	array("DIV" => "edit1", "TAB" => GetMessage("WP_PSEUDOSECTION_NEW_GENERATE_LINKS"), "ICON" => "main_channel_edit", "TITLE" => GetMessage("WP_PSEUDOSECTION_GENERATE_LINKS")),
 
 );
 $tabControl = new CAdminTabControl("tabControl", $aTabs);
@@ -25,12 +25,12 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
  ********************************************************************/
 if(!function_exists('getClosestNotPseudoSectionAdmin')){
 	function getClosestNotPseudoSectionAdmin($sectionId, $arFilter, $iblockID){
-		$resInside = CIBlockSection::GetList(array(), array('IBLOCK_ID' => $iblockID, 'ID' => $sectionId, 'ACTIVE' => 'Y', '!UF_PSEUDO_SECTION' => false), true, array('ID', 'IBLOCK_ID', 'CODE', 'IBLOCK_SECTION_ID', 'UF_PSEUDO_SECTION'));
+		$resInside = CIBlockSection::GetList(array(), array('IBLOCK_ID' => $iblockID, 'ID' => $sectionId, 'ACTIVE' => 'Y', '!UF_FILTER' => false), true, array('ID', 'IBLOCK_ID', 'CODE', 'IBLOCK_SECTION_ID', 'UF_FILTER'));
 		if($obInside = $resInside->GetNext()){
-			$sectionValue = unserialize(htmlspecialchars_decode($obInside['UF_PSEUDO_SECTION']));
+			$sectionValue = unserialize(htmlspecialchars_decode($obInside['UF_FILTER']));
 			if(count($sectionValue) > 0){
-				if($sectionValue['is_pseudosection'] == 'Y'){
-					$obCond = new CCatalogCondTree();
+				if($sectionValue['is_filter'] == 'Y'){
+					$obCond = new CCatalogCondTreeNew();
 					$obCond->Init(BT_COND_MODE_GENERATE, BT_COND_BUILD_CATALOG, array());
 					$conditions = $obCond->Parse($sectionValue['rule']);
 					$strEval = $obCond->Generate($conditions, array('FIELD' => '$arElement'), array('MULTIPLE' => 'N'));
@@ -84,13 +84,13 @@ if(!function_exists('wpPreparePropsForFilter')){
  * Actions
  ********************************************************************/
 $ID = intval($ID);
-$IBLOCK_ID = 1;
+$IBLOCK_ID = 51;
 $addedToSection = array();
 $removedFromSection = array();
 $cachedir = $_SERVER['DOCUMENT_ROOT'].'/upload/custom_cache/';
-$cachefileiblock = $cachedir.'custom_pseudosection_admin.php';
-$cachefileiblockprops = $cachedir.'custom_pseudosection_admin_props.php';
-$cachefileelem = $cachedir.'custom_pseudosection_admin_elems.php';
+$cachefileiblock = $cachedir.'custom_pseudosection_new_admin.php';
+$cachefileiblockprops = $cachedir.'custom_pseudosection_new_admin_props.php';
+$cachefileelem = $cachedir.'custom_pseudosection_new_admin_elems.php';
 
 if(!is_dir($cachedir)){
 	mkdir($cachedir, 0777, true);
@@ -98,7 +98,7 @@ if(!is_dir($cachedir)){
 
 if(!is_file($cachefileiblockprops)){
 	$message = new CAdminMessage(array(
-		"MESSAGE" => GetMessage("WP_PSEUDOSECTION_NO_PROPS_CACHE"),
+		"MESSAGE" => GetMessage("WP_PSEUDOSECTION_NEW_NO_PROPS_CACHE"),
 		"HTML" => true,
 		"TYPE" => "ERROR"
 	));
@@ -106,24 +106,95 @@ if(!is_file($cachefileiblockprops)){
 
 if(!CModule::IncludeModule("catalog")){
 	$message = new CAdminMessage(array(
-		"MESSAGE" => GetMessage("WP_PSEUDOSECTION_NO_CATALOG_MODULE"),
+		"MESSAGE" => GetMessage("WP_PSEUDOSECTION_NEW_NO_CATALOG_MODULE"),
 		"HTML" => true,
 		"TYPE" => "ERROR"
 	));
 }else{
-	//генерируем кэш свойств для редиректа и вывода ссылко на свойства
+
+	if(!empty($_REQUEST['generate_cache_iblock'])){
+		$arCache = array();
+		$haveMore = false;
+
+		$page = intval($_REQUEST['page']);
+		if($page<=0){
+			$page = 1;
+		}
+
+		if($page > 1){
+			$handle = fopen($cachefileiblock, "r");
+			$contents = fread($handle, filesize($cachefileiblock));
+			$arCache = json_decode($contents, true);
+			fclose($handle);
+		}
+
+		$added = intval($_REQUEST['added']);
+
+		$arFilter = array('ACTIVE' => 'Y', '!UF_FILTER' => false, 'CHECK_PERMISSIONS' => 'N');
+		$res = CIBlockSection::GetList(array('depth_level' => 'DESC', 'ID' => "ASC"), $arFilter, false, array("ID", "IBLOCK_ID", "IBLOCK_SECTION_ID"));
+
+		$countSections = CIBlockSection::GetCount($arFilter);
+		if($countSections>0){
+			if(50*($page-1)<$countSections){
+				$obCond = new CCatalogCondTreeNew();
+				$boolCond = $obCond->Init(BT_COND_MODE_GENERATE, BT_COND_BUILD_CATALOG, array());
+
+				$res->NavStart(50, true, $page);
+				$i=0;
+				while($ob = $res->GetNext()){
+					$i++;
+					if ($i==50) {
+						$haveMore = true;
+					}
+					
+					$arUF = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields("IBLOCK_".$ob['IBLOCK_ID']."_SECTION", $ob['ID']);
+					$sectionValue = unserialize($arUF["UF_FILTER"]["VALUE"]);
+					if(count($sectionValue) > 0){
+						if($sectionValue['is_filter'] == 'Y'){
+							$conditions = $obCond->Parse($sectionValue['rule']);
+							$strEval = $obCond->Generate($conditions, array('FIELD' => '$arElement'), array('MULTIPLE' => 'N'));
+
+							$nonPSIblock = WPPseudosectionNew::getClosestNotPseudoSectionAdmin($ob['IBLOCK_SECTION_ID'], $strEval, $IBLOCK_ID);
+							if(!$nonPSIblock){
+								$nonPSIblock['SECTION_ID'] = $ob['IBLOCK_SECTION_ID'];
+							}else{
+								$strEval = "(".$nonPSIblock['FILTER'].")";
+							}
+
+							$arCache[$ob['ID']] = array('ID' => $ob['ID'], 'SECTION_ID' => $nonPSIblock['SECTION_ID'], 'EVAL_FILTER' => $strEval);
+							$added++;
+						}
+					}
+				}
+			}
+		}
+
+		if($fp = @fopen($cachefileiblock, "w+")){
+			$strArCache = json_encode($arCache);
+			fwrite($fp, $strArCache);
+			fclose($fp);
+		}
+		if($haveMore){
+			$page++;
+			$pageUrl = $APPLICATION->GetCurPageParam("generate_cache_iblock=Y&added=".$added."&page=".$page, array("generate_cache_iblock", "added", "page"));
+			echo '<script type="text/javascript">window.location.href = "'.$pageUrl.'";</script>';
+		}
+	}
+
+	//генерируем кэш свойств для редиректа и вывода ссылок на свойства
 	if(!empty($_REQUEST['generate_cache_iblock_props'])){
 
-		include_once($_SERVER["DOCUMENT_ROOT"].getLocalPath("php_interface/classes/CustomCCatalogCondTree.php"));
+		include_once(_DIR_."/../classes/general/CustomCCatalogCondTree.php");
 		$allFilters = array();
-		$obCond = new CCCatalogCondTree();
+		$obCond = new CCCatalogCondTreeNew();
 		$boolCond = $obCond->Init(BT_COND_MODE_GENERATE, BT_COND_BUILD_CATALOG, array());
-		$res = CIBlockSection::GetList(array("left_margin"=>"ASC"), array('IBLOCK_ID' => $IBLOCK_ID, 'ACTIVE'=>'Y', '!UF_PSEUDO_SECTION'=>false), true, array('ID', 'IBLOCK_ID', 'CODE', 'IBLOCK_SECTION_ID','UF_PSEUDO_SECTION'));
+		$res = CIBlockSection::GetList(array("left_margin"=>"ASC"), array('ACTIVE'=>'Y', '!UF_FILTER'=>false), true, array('ID', 'IBLOCK_ID', 'CODE', 'IBLOCK_SECTION_ID','UF_FILTER'));
 
 		while($ob = $res->GetNext()){
-			$sectionValue = unserialize(htmlspecialchars_decode($ob['UF_PSEUDO_SECTION']));
+			$arUF = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields("IBLOCK_".$ob['IBLOCK_ID']."_SECTION", $ob['ID']);
+			$sectionValue = unserialize($arUF["UF_FILTER"]["VALUE"]);
 			if(count($sectionValue) > 0){
-				if($sectionValue['is_pseudosection'] == 'Y'){
+				if($sectionValue['is_filter'] == 'Y'){
 					$conditions = $obCond->Parse($sectionValue['rule']);
 					$strEval = $obCond->Generate($conditions, array());
 					$strEval = preg_replace('/([\"\'])\\1+/', '$1', $strEval);
@@ -171,7 +242,7 @@ if(!CModule::IncludeModule("catalog")){
 					$arSectionsWr = array_unique($arSectionsWr);
 
 
-					$allFilters[] = array('FILTER'=>$arFilter2, 'URL'=>'/catalog/'.$sectionPath.'/'.$ob['CODE'].'/', 'PROP_NAME'=>$propName, 'PROP_VAL'=>$propVal, 'SECTIONS'=>$arSectionsWr, 'SECTION_ID'=>$ob['ID']);
+					$allFilters[] = array('FILTER'=>$arFilter2, 'URL'=>getCanonicalSectionLink($ob), 'PROP_NAME'=>$propName, 'PROP_VAL'=>$propVal, 'SECTIONS'=>$arSectionsWr, 'SECTION_ID'=>$ob['ID']);
 					if($fp = @fopen($cachefileiblockprops, "w+")){
 						$strArCache = json_encode($allFilters);
 						fwrite($fp, $strArCache);
@@ -182,69 +253,6 @@ if(!CModule::IncludeModule("catalog")){
 		}
 	}
 
-	if(!empty($_REQUEST['generate_cache_iblock'])){
-		$arCache = array();
-		$haveMore = false;
-
-		$page = intval($_REQUEST['page']);
-		if($page<=0){
-			$page = 1;
-		}
-
-		if($page > 1){
-			$handle = fopen($cachefileiblock, "r");
-			$contents = fread($handle, filesize($cachefileiblock));
-			$arCache = json_decode($contents, true);
-			fclose($handle);
-		}
-
-		$added = intval($_REQUEST['added']);
-
-		$arFilter = array('IBLOCK_ID' => $IBLOCK_ID, 'ACTIVE' => 'Y', '!UF_PSEUDO_SECTION' => false, 'CHECK_PERMISSIONS' => 'N');
-		$res = CIBlockSection::GetList(array('depth_level' => 'DESC', 'ID' => "ASC"), $arFilter, false, array("ID", "IBLOCK_SECTION_ID"));
-
-		$countSections = CIBlockSection::GetCount($arFilter);
-		if($countSections>0){
-			if(50*($page-1)<$countSections){
-				$obCond = new CCatalogCondTree();
-				$boolCond = $obCond->Init(BT_COND_MODE_GENERATE, BT_COND_BUILD_CATALOG, array());
-
-				$res->NavStart(50, true, $page);
-				while($ob = $res->GetNext()){
-					$haveMore = true;
-					$arUF = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields("IBLOCK_".$IBLOCK_ID."_SECTION", $ob['ID']);
-					$sectionValue = unserialize($arUF["UF_PSEUDO_SECTION"]["VALUE"]);
-					if(count($sectionValue) > 0){
-						if($sectionValue['is_pseudosection'] == 'Y'){
-							$conditions = $obCond->Parse($sectionValue['rule']);
-							$strEval = $obCond->Generate($conditions, array('FIELD' => '$arElement'), array('MULTIPLE' => 'N'));
-
-							$nonPSIblock = WPPseudosection::getClosestNotPseudoSectionAdmin($ob['IBLOCK_SECTION_ID'], $strEval, $IBLOCK_ID);
-							if(!$nonPSIblock){
-								$nonPSIblock['SECTION_ID'] = $ob['IBLOCK_SECTION_ID'];
-							}else{
-								$strEval = "(".$nonPSIblock['FILTER'].")";
-							}
-
-							$arCache[$ob['ID']] = array('ID' => $ob['ID'], 'SECTION_ID' => $nonPSIblock['SECTION_ID'], 'EVAL_FILTER' => $strEval);
-							$added++;
-						}
-					}
-				}
-			}
-		}
-
-		if($fp = @fopen($cachefileiblock, "w+")){
-			$strArCache = json_encode($arCache);
-			fwrite($fp, $strArCache);
-			fclose($fp);
-		}
-		if($haveMore){
-			$page++;
-			$pageUrl = $APPLICATION->GetCurPageParam("generate_cache_iblock=Y&added=".$added."&page=".$page, array("generate_cache_iblock", "added", "page"));
-			echo '<script type="text/javascript">window.location.href = "'.$pageUrl.'";</script>';
-		}
-	}
 
 	if(!empty($_REQUEST['link_items'])){
 
@@ -265,7 +273,7 @@ if(!CModule::IncludeModule("catalog")){
 		fclose($handle);
 
 		$arSelect = array("ID", "IBLOCK_ID", "PROPERTY_*"); //IBLOCK_ID и ID обязательно должны быть указаны
-		$arFilter = array("IBLOCK_ID" => $IBLOCK_ID, "ACTIVE" => "Y");
+		$arFilter = array("ACTIVE" => "Y");
 		$rsElements = CIBlockElement::GetList(array('ID'=>"ASC"), $arFilter, false, false, $arSelect);
 		$cntElems = intval($rsElements->SelectedRowsCount());
 
@@ -341,7 +349,7 @@ if(!CModule::IncludeModule("catalog")){
 		$removed += count($removedFromSection);
 
 		$message = new CAdminMessage(array(
-			"MESSAGE" => GetMessage("WP_PSEUDOSECTION_GOT_SUCCESS", array("#GENERATED_COUNT#" => $added." из ".$cntElems, "#UNGENERATED_COUNT#" => $removed)),
+			"MESSAGE" => GetMessage("WP_PSEUDOSECTION_NEW_GOT_SUCCESS", array("#GENERATED_COUNT#" => $added." из ".$cntElems, "#UNGENERATED_COUNT#" => $removed)),
 			"HTML" => true,
 			"TYPE" => "OK"
 		));
@@ -380,7 +388,7 @@ if(!CModule::IncludeModule("catalog")){
 		<tr>
 			<td>
 				Шаг 1:<br>
-				<input class="adm-btn" name="generate_cache_iblock" title="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_CACHE_IBLOCK_BTN") ?>" onclick="" value="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_CACHE_IBLOCK_BTN") ?>" type="submit">
+				<input class="adm-btn" name="generate_cache_iblock" title="<?= GetMessage("WP_PSEUDOSECTION_NEW_GENERATE_CACHE_IBLOCK_BTN") ?>" onclick="" value="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_CACHE_IBLOCK_BTN") ?>" type="submit">
 				<br><br>
 			</td>
 		</tr>
@@ -388,7 +396,7 @@ if(!CModule::IncludeModule("catalog")){
 		<tr>
 			<td>
 				Шаг 2:<br>
-				<input class="adm-btn" name="generate_cache_iblock_props" title="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_CACHE_IBLOCK_PROPS_BTN") ?>" onclick="" value="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_CACHE_IBLOCK_PROPS_BTN") ?>" type="submit">
+				<input class="adm-btn" name="generate_cache_iblock_props" title="<?= GetMessage("WP_PSEUDOSECTION_NEW_GENERATE_CACHE_IBLOCK_PROPS_BTN") ?>" onclick="" value="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_CACHE_IBLOCK_PROPS_BTN") ?>" type="submit">
 				<br><br>
 			</td>
 		</tr>
@@ -396,7 +404,7 @@ if(!CModule::IncludeModule("catalog")){
 		<tr>
 			<td>
 				Шаг 3:<br>
-				<input class="adm-btn" name="link_items" title="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_BTN") ?>" onclick="" value="<?= GetMessage("WP_PSEUDOSECTION_GENERATE_BTN") ?>" type="submit" <?if(!is_file($cachefileiblock)){?>disabled="disabled"<?}?>> <?if(!is_file($cachefileiblock)){echo GetMessage("WP_PSEUDOSECTION_NO_IBLOCK_CACHE");}?>
+				<input class="adm-btn" name="link_items" title="<?= GetMessage("WP_PSEUDOSECTION_NEW_GENERATE_BTN") ?>" onclick="" value="<?= GetMessage("WP_PSEUDOSECTION_NEW_GENERATE_BTN") ?>" type="submit" <?if(!is_file($cachefileiblock)){?>disabled="disabled"<?}?>> <?if(!is_file($cachefileiblock)){echo GetMessage("WP_PSEUDOSECTION_NEW_NO_IBLOCK_CACHE");}?>
 				<br><br>
 			</td>
 		</tr>
