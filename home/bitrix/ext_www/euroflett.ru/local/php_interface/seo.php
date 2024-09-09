@@ -3,7 +3,7 @@ AddEventHandler("main", "OnAfterEpilog", Array("newSEO", "changeTags"));
 
 class newSEO
 {
-    function changeTags() {
+    static function changeTags() {
         $arSeo = [];
 
         switch ($_SERVER['REQUEST_URI']) {
