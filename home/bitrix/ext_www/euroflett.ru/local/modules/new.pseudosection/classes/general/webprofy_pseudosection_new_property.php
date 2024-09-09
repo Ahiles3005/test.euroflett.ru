@@ -2,7 +2,7 @@
 CModule::IncludeModule('iblock');
 include_once(__DIR__."/CustomCCatalogCondTree.php");
 class WPPseudosectionPropertyNew extends CUserTypeString {
-	function GetUserTypeDescription() {
+	static function GetUserTypeDescription() {
 		return array(
 			"USER_TYPE_ID" => "new_webprofy_pseudosection",
 			"CLASS_NAME" => __CLASS__,
