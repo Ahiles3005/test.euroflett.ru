@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<options>
+<IBlocks>
+<block id="43" name="&#x410;&#x43A;&#x441;&#x435;&#x441;&#x441;&#x443;&#x430;&#x440;&#x44B;" cat_id="247"/>
+<block id="45" name="&#x411;&#x430;&#x440;&#x431;&#x435;&#x43A;&#x44E;"/>
+<block id="47" name="&#x411;&#x43B;&#x435;&#x43D;&#x434;&#x435;&#x440;&#x44B;" cat_id="192"/>
+<block id="49" name="&#x427;&#x430;&#x439;&#x43D;&#x438;&#x43A;&#x438;" cat_id="193"/>
+<block id="50" name="&#x414;&#x440;&#x43E;&#x432;&#x44F;&#x43D;&#x44B;&#x435; &#x43F;&#x435;&#x447;&#x438;"/>
+<block id="51" name="&#x414;&#x443;&#x445;&#x43E;&#x432;&#x44B;&#x435; &#x448;&#x43A;&#x430;&#x444;&#x44B;" cat_id="151"/>
+<block id="52" name="&#x413;&#x43B;&#x430;&#x434;&#x438;&#x43B;&#x44C;&#x43D;&#x44B;&#x435; &#x43C;&#x430;&#x448;&#x438;&#x43D;&#x44B;" cat_id="149"/>
+<block id="53" name="&#x425;&#x43E;&#x43B;&#x43E;&#x434;&#x438;&#x43B;&#x44C;&#x43D;&#x438;&#x43A;&#x438;" cat_id="143"/>
+<block id="54" name="&#x425;&#x44C;&#x44E;&#x43C;&#x438;&#x434;&#x43E;&#x440;&#x44B;" cat_id="145"/>
+<block id="56" name="&#x41A;&#x43E;&#x444;&#x435;&#x43C;&#x430;&#x448;&#x438;&#x43D;&#x44B;" cat_id="157"/>
+<block id="57" name="&#x41A;&#x43E;&#x444;&#x435;&#x43C;&#x43E;&#x43B;&#x43A;&#x438;" cat_id="200"/>
+<block id="58" name="&#x41A;&#x43E;&#x43C;&#x431;&#x438;-&#x43F;&#x430;&#x43D;&#x435;&#x43B;&#x438;" cat_id="165"/>
+<block id="59" name="&#x41A;&#x443;&#x445;&#x43E;&#x43D;&#x43D;&#x44B;&#x435; &#x43F;&#x440;&#x43E;&#x446;&#x435;&#x441;&#x441;&#x43E;&#x440;&#x44B;" cat_id="199"/>
+<block id="60" name="&#x41C;&#x438;&#x43A;&#x440;&#x43E;&#x432;&#x43E;&#x43B;&#x43D;&#x43E;&#x432;&#x44B;&#x435; &#x43F;&#x435;&#x447;&#x438;" cat_id="153"/>
+<block id="62" name="&#x41C;&#x438;&#x43A;&#x441;&#x435;&#x440;&#x44B;" cat_id="194"/>
+<block id="63" name="&#x41C;&#x43E;&#x439;&#x43A;&#x438;" cat_id="160"/>
+<block id="65" name="&#x41E;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x435;&#x43B;&#x438; &#x432;&#x43E;&#x437;&#x434;&#x443;&#x445;&#x430;" cat_id="210"/>
+<block id="66" name="&#x41F;&#x430;&#x440;&#x43E;&#x432;&#x430;&#x440;&#x43A;&#x438;" cat_id="154"/>
+<block id="67" name="&#x41F;&#x43E;&#x441;&#x443;&#x434;&#x430;" cat_id="218"/>
+<block id="68" name="&#x41F;&#x43E;&#x441;&#x443;&#x434;&#x43E;&#x43C;&#x43E;&#x435;&#x447;&#x43D;&#x44B;&#x435; &#x43C;&#x430;&#x448;&#x438;&#x43D;&#x44B;" cat_id="156"/>
+<block id="69" name="&#x41F;&#x44B;&#x43B;&#x435;&#x441;&#x43E;&#x441;&#x44B;" cat_id="167"/>
+<block id="70" name="&#x421;&#x442;&#x438;&#x440;&#x430;&#x43B;&#x44C;&#x43D;&#x44B;&#x435; &#x43C;&#x430;&#x448;&#x438;&#x43D;&#x44B;" cat_id="146"/>
+<block id="72" name="&#x422;&#x43E;&#x441;&#x442;&#x435;&#x440;&#x44B;" cat_id="196"/>
+<block id="73" name="&#x423;&#x432;&#x43B;&#x430;&#x436;&#x43D;&#x438;&#x442;&#x435;&#x43B;&#x438; &#x432;&#x43E;&#x437;&#x434;&#x443;&#x445;&#x430;" cat_id="211"/>
+<block id="74" name="&#x412;&#x430;&#x444;&#x435;&#x43B;&#x44C;&#x43D;&#x438;&#x446;&#x44B;" cat_id="197"/>
+<block id="75" name="&#x412;&#x430;&#x440;&#x43E;&#x447;&#x43D;&#x44B;&#x435; &#x43F;&#x430;&#x43D;&#x435;&#x43B;&#x438;" cat_id="150"/>
+<block id="76" name="&#x412;&#x430;&#x440;&#x43E;&#x447;&#x43D;&#x44B;&#x435; &#x446;&#x435;&#x43D;&#x442;&#x440;&#x44B;" cat_id="203"/>
+<block id="77" name="&#x412;&#x438;&#x43D;&#x43D;&#x44B;&#x435; &#x448;&#x43A;&#x430;&#x444;&#x44B;" cat_id="144"/>
+<block id="78" name="&#x41F;&#x43E;&#x434;&#x43E;&#x433;&#x440;&#x435;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x438;" cat_id="159"/>
+<block id="79" name="&#x421;&#x443;&#x448;&#x438;&#x43B;&#x44C;&#x43D;&#x44B;&#x435; &#x43C;&#x430;&#x448;&#x438;&#x43D;&#x44B;" cat_id="147"/>
+<block id="80" name="&#x412;&#x44B;&#x442;&#x44F;&#x436;&#x43A;&#x438;" cat_id="158"/>
+<block id="82" name="&#x421;&#x443;&#x448;&#x438;&#x43B;&#x44C;&#x43D;&#x44B;&#x435; &#x448;&#x43A;&#x430;&#x444;&#x44B;"/>
+</IBlocks>
+<brands>
+<brand id="40" name="Smeg" code="smeg" available="Y"/>
+<brand id="41" name="Liebherr" code="liebherr" available="Y" price="Y"/>
+<brand id="42" name="Neff" code="neff" available="Y" price="Y"/>
+<brand id="43" name="Kuppersbusch" code="kuppers" available="Y"/>
+<brand id="44" name="Gaggenau" code="gaggenau"/>
+<brand id="46" name="Miele" code="miele" available="Y" price="Y"/>
+<brand id="48" name="Ilve" code="ilve" available="Y"/>
+<brand id="49" name="Restart" code="restart"/>
+<brand id="50" name="De Dietrich" code="de-dietrich"/>
+<brand id="53" name="Kitchen Aid" code="kitchen-aid" available="Y" price="Y"/>
+<brand id="56" name="Hitachi" code="hitachi" available="Y" price="Y"/>
+<brand id="58" name="Asko" code="asko" available="Y" price="Y"/>
+<brand id="60" name="Steel" code="steel"/>
+<brand id="61" name="IP" code="ip" available="Y" price="Y"/>
+<brand id="64" name="Faber" code="faber" available="Y"/>
+<brand id="69" name="Falmec" code="falmec" available="Y"/>
+<brand id="73" name="WMF" code="wmf" available="Y"/>
+<brand id="76" name="AEG" code="aeg" available="Y" price="Y"/>
+<brand id="32400" name="GENERAL ELECTRIC" code="general_electric" available="Y" price="Y"/>
+<brand id="32413" name="Beltratto" code="beltratto" available="Y" price="Y"/>
+<brand id="32523" name="VZUG" code="vzug" available="Y" price="Y"/>
+<brand id="32570" name="Mitsubishi Electric" code="mitsubishi-electric" available="Y" price="Y"/>
+<brand id="32610" name="Fhiaba" code="fhiaba" available="Y"/>
+<brand id="32611" name="Sub-Zero" code="sub-zero" available="Y"/>
+<brand id="32814" name="Kuppersberg" code="kuppersberg" available="Y" price="Y"/>
+<brand id="32870" name="Kaiser" code="kaiser" available="Y" price="Y"/>
+<brand id="32871" name="Sharp" code="sharp" available="Y" price="Y"/>
+<brand id="32872" name="Officine gullo" code="officine-gullo"/>
+<brand id="32873" name="Dunavox" code="dunavox" available="Y" price="Y"/>
+<brand id="33331" name="BORA" code="bora"/>
+</brands>
+</options>
