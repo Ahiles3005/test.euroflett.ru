@@ -8,7 +8,7 @@ CModule::IncludeModule('iblock');
 
 class CIBlockPropertyLinkToSection extends CIBlockPropertyElementList{
 
-	function GetUserTypeDescription(){
+static function GetUserTypeDescription(){
 		return array(
 			'PROPERTY_TYPE' => 'S',
 			'USER_TYPE' => 'wp_iblock_canonical_section',
@@ -18,7 +18,7 @@ class CIBlockPropertyLinkToSection extends CIBlockPropertyElementList{
 	}
 
 
-	function createTree(&$ar, $parent){
+static function createTree(&$ar, $parent){
 		$tree = array();
 		foreach($parent as $val){
 			if(isset($ar[$val['ID']]) && $val['ID'] !== 0){
@@ -29,7 +29,7 @@ class CIBlockPropertyLinkToSection extends CIBlockPropertyElementList{
 		return $tree;
 	}
 
-	function showTree($tree, $arValue, $level = 0){
+static function showTree($tree, $arValue, $level = 0){
 		foreach($tree as $category){
 			if($category["ID"] === $arValue['VALUE']){
 				$selected = ' selected="selected"';
@@ -43,7 +43,7 @@ class CIBlockPropertyLinkToSection extends CIBlockPropertyElementList{
 		return $ret;
 	}
 
-	public function GetPropertyFieldHtml($arProperty, $arValue, $strHTMLControlName){
+	public static function GetPropertyFieldHtml($arProperty, $arValue, $strHTMLControlName){
 		$options = '';
 		$options = '<option value="">(Не выбран)</option>';
 		$dbRes = CIBlockElement::GetList(Array(), $arFilter = Array("ID" => intval($_REQUEST['ID']), "SHOW_HISTORY" => "Y"), false, false);
@@ -84,7 +84,7 @@ AddEventHandler("iblock", "OnAfterIBlockElementUpdate", Array("EuroflettCatalog"
 
 class EuroflettCatalog
 {
-	function OnAfterIBlockElementUpdateHandler(&$arFields)
+	static function OnAfterIBlockElementUpdateHandler(&$arFields)
 	{
 		$ob = CIBlock::GetByID($arFields['IBLOCK_ID']);
 		$arIblock = $ob->GetNext();
@@ -94,7 +94,7 @@ class EuroflettCatalog
 		}
 	}
 
-	function OnProductUpdateHandler($id, &$arFields)
+	static function OnProductUpdateHandler($id, &$arFields)
 	{
 		//$ob = CIBlock::GetByID($arFields['IBLOCK_ID']);
 		//$arIblock = $ob->GetNext();
@@ -104,7 +104,7 @@ class EuroflettCatalog
 		//}
 	}
 
-	function isAvailableToBuy($id){
+	static function isAvailableToBuy($id){
 		CModule::IncludeModule('iblock');
 		CModule::IncludeModule('catalog');
 		$arProduct = CCatalogProduct::GetByID($id);
@@ -128,7 +128,7 @@ class EuroflettCatalog
 		return true;
 	}
 
-	function isPrepayment($id, $isAvailable){
+	static function isPrepayment($id, $isAvailable){
 		CModule::IncludeModule('iblock');
 		$ob = CIBlockElement::GetByID($id);
 		$arItem = $ob->GetNext();
@@ -145,7 +145,7 @@ class EuroflettCatalog
 		return !$isAvailable;
 	}
 
-	function updateMarketStatuses(){
+	static function updateMarketStatuses(){
 		// Обновляет состояние флагов "Есть в наличии" и "Предоплата"
 		// Предполагается запуск в агенте
 		CModule::IncludeModule('iblock');
@@ -164,7 +164,7 @@ class EuroflettCatalog
 		return 'EuroflettCatalog::updateMarketStatuses();';
 	}
 
-	function updatePreorderForElement($id, $iblock_id){
+	static function updatePreorderForElement($id, $iblock_id){
 		$isAvailable = self::isAvailableToBuy($id);
 		$isPrepayment = self::isPrepayment($id, $isAvailable);
 		CModule::IncludeModule('iblock');
