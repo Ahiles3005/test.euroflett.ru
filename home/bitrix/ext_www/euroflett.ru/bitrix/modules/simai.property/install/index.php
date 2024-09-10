@@ -1,7 +1,7 @@
 <?
 \Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
 
-define(SF_PROPERTY_DOCUMENT_ROOT, Bitrix\Main\Application::getDocumentRoot());
+define('SF_PROPERTY_DOCUMENT_ROOT', Bitrix\Main\Application::getDocumentRoot());
 
 if (class_exists('simai_property'))
 {
