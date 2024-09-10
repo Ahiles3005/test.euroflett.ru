@@ -107,7 +107,8 @@
 										$value = WP::bit(array(
 											'of' => 'CUser',
 											'one' => 'f.PERSONAL_PHONE',
-											'f' => 'ID='.$id
+											'f' => 'ID='.$id,
+											'params' => []
 										));
 									}
 									break;

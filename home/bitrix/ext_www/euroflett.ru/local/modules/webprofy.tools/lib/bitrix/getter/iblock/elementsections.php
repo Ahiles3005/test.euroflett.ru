@@ -13,7 +13,7 @@
             ),
             $nextMethod = 'Fetch';
 
-        function getList(){
+        function getList($reset = false){
             $data = $this->data;
             $select = $data->get('select');
             $select = is_array($select) ? $select : false;

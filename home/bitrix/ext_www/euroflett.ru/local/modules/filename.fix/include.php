@@ -2,7 +2,7 @@
 	use Bitrix\Main\Application;
 	class FileNameFixModule
 	{
-		public function OnPageStart()
+		public static function OnPageStart()
 		{
 			if (preg_match("~/bitrix/admin/iblock_element_edit\.php~", $_SERVER['REQUEST_URI']))
 			{

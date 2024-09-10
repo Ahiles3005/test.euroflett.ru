@@ -129,7 +129,7 @@ if ($normalCount > 0):
 				}
 			});
 		</script>
-	<?if (count($arResult['PREORDER_ITEMS'])>0) {?>	
+	<?if (count($arResult['PREORDER_ITEMS'] ?? [])>0) {?>
 	<?foreach($arResult['PREORDER_ITEMS'] as $listName => $arList){?>
 		<?if($listName == 'AnDelCanBuy'){
 			$listVisiblity = 'display:block;';
@@ -222,8 +222,8 @@ if ($normalCount > 0):
 	<?}?>
 	<?}?>
 
-		<input type="hidden" id="column_headers" value="<?=CUtil::JSEscape(implode($arHeaders, ","))?>" />
-		<input type="hidden" id="offers_props" value="<?=CUtil::JSEscape(implode($arParams["OFFERS_PROPS"], ","))?>" />
+		<input type="hidden" id="column_headers" value="<?=CUtil::JSEscape(implode(",", $arHeaders))?>" />
+		<input type="hidden" id="offers_props" value="<?=CUtil::JSEscape(implode( ",", $arParams["OFFERS_PROPS"]))?>" />
 		<input type="hidden" id="action_var" value="<?=CUtil::JSEscape($arParams["ACTION_VARIABLE"])?>" />
 		<input type="hidden" id="quantity_float" value="<?=$arParams["QUANTITY_FLOAT"]?>" />
 		<input type="hidden" id="count_discount_4_all_quantity" value="<?=($arParams["COUNT_DISCOUNT_4_ALL_QUANTITY"] == "Y") ? "Y" : "N"?>" />

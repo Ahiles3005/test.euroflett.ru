@@ -37,7 +37,7 @@ if (strlen($arResult["ERROR_MESSAGE"]) <= 0)
 	
 	<?
 
-	$normalCount = count($arResult["ITEMS"]["AnDelCanBuy"])+count($arResult["PREORDER_ITEMS"]["AnDelCanBuy"]);
+    $normalCount = count($arResult["ITEMS"]["AnDelCanBuy"] ?? []) + count($arResult["PREORDER_ITEMS"]["AnDelCanBuy"] ?? []);
 	$normalCount = 0;
 	foreach ($arResult["ITEMS"]["AnDelCanBuy"] as $item)
 		$normalCount += $item["QUANTITY"];

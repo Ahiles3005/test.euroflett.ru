@@ -626,7 +626,7 @@ if (!$file = fopen($_SERVER['DOCUMENT_ROOT'].'/euroflett_gmerchant.xml.tmp', 'a'
 
 class RedirectFromHttpToHttps
 {
-	function redirect_from_http_to_https()
+	static function redirect_from_http_to_https()
 	{
 		if ($_SERVER['HTTP_X_FORWARDED_PROTO'] != "https" && empty($_POST) && preg_match("~/cart/~", $_SERVER['REQUEST_URI']))
 		{

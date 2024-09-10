@@ -21,7 +21,7 @@ AddEventHandler("sale", "OnOrderAdd", Array("mail_new", "OnOrderAdd_mail"));
 
 class mail_new
 {
-    function OnOrderAdd_mail($ID, $val)
+    static function OnOrderAdd_mail($ID, $val)
     {
 
         if ($val['PAY_SYSTEM_ID'] == '11') {
@@ -77,7 +77,7 @@ class mail_new
                 "EMAIL" => $arUser,
                 "PRICE" => (int)$val["PRICE"] . " руб",
             );
-            CEvent::Send("SALE_NEW_ORDER", s1, $arEventFields, "N", 22);
+            CEvent::Send("SALE_NEW_ORDER", 's1', $arEventFields, "N", 22);
 
             $arEventFields = array(
                 "ORDER_DATE" => $val['DATE'],
@@ -90,7 +90,7 @@ class mail_new
             );
 
 
-            CEvent::Send("SALE_NEW_ORDER", s1, $arEventFields, "N", 53);
+            CEvent::Send("SALE_NEW_ORDER", 's1', $arEventFields, "N", 53);
         }
 
     }
@@ -238,7 +238,7 @@ AddEventHandler("catalog", "OnBeforeProductUpdate", Array("ProductQuantityClass"
 class ProductQuantityClass  
 {
  
-  function OnBeforeProductUpdateQuan($ID, &$arFields)
+  static function OnBeforeProductUpdateQuan($ID, &$arFields)
   {
 	   
     if($arFields["QUANTITY"] > 0) {
@@ -1583,7 +1583,7 @@ AddEventHandler("sale", "OnSaleComponentOrderOneStepProcess", array("hardkod", "
  
 class hardkod
 {
-   function OnSaleComponentOrderOneStepProcessHandler(&$arResult, &$arUserResult, $arParams)
+  static function OnSaleComponentOrderOneStepProcessHandler(&$arResult, &$arUserResult, $arParams)
    {   
       global $APPLICATION;
 		if($arParams["RECAPTCHA"] == "Y"){
