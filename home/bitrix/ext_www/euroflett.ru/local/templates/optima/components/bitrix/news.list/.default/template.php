@@ -54,8 +54,8 @@ $this->setFrameMode(true);
 			<?if($arParams["DISPLAY_PREVIEW_TEXT"]!="N" && $arItem["PREVIEW_TEXT"]):?>
 				<p class="announce"><?echo strip_tags($arItem["PREVIEW_TEXT"],'<a><span><b>');?></p>
 			<?endif;?>
-			
-			<?if(count($arItem["FIELDS"]) > 0 || count($arItem["DISPLAY_PROPERTIES"] > 0)):?>
+
+            <? if ((is_array($arItem["FIELDS"]) && count($arItem["FIELDS"]) > 0) || (is_array($arItem["DISPLAY_PROPERTIES"]) && count($arItem["DISPLAY_PROPERTIES"]) > 0)): ?>
 				<div class="properties">
 				<?foreach($arItem["FIELDS"] as $code=>$value):?>
 					<div class="property property-<?= strtolower($code) ?>">

@@ -460,7 +460,7 @@ foreach ($arResult['ITEMS'] as $key => $arItem) {
 		}
 	}
 
-	$noPrice |= $arItem['PROPERTIES']['NO_PRICE']['VALUE'];
+	$noPrice |= intval($arItem['PROPERTIES']['NO_PRICE']['VALUE']);
 
 	$arResult['ITEMS'][$key]['NO_PRICE'] = (bool) $noPrice;
 	

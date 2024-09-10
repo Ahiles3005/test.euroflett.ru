@@ -458,7 +458,7 @@ if (preg_match('~^404~i', CHTTP::GetLastStatus())) {
                         $res = CIBlockSection::GetList(Array("left_margin" => "DESC"), array('IBLOCK_ID' => $arParams['IBLOCK_ID'], 'ID' => $arCurSection['ID'], 'ACTIVE' => 'Y', '!UF_PSEUDO_SECTION' => false), true, array('ID', 'IBLOCK_ID', 'CODE', 'IBLOCK_SECTION_ID', 'UF_PSEUDO_SECTION'));
                         if ($ob = $res->GetNext()) {
                             $sectionValue = unserialize(htmlspecialchars_decode($ob['UF_PSEUDO_SECTION']));
-                            if (count($sectionValue) > 0) {
+                            if (is_array($sectionValue) && count($sectionValue) > 0) {
                                 if ($sectionValue['is_pseudosection'] == 'Y') {
                                     $obCond = new CCCatalogCondTree();
                                     $boolCond = $obCond->Init(BT_COND_MODE_GENERATE, BT_COND_BUILD_CATALOG, array());

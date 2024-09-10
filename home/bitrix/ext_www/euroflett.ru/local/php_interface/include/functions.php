@@ -96,22 +96,22 @@ function getCanonicalLink($element, $detailPageTemplate=false){
 			return $element;
 		}
 	}elseif (is_array($element)) { // массив одного элемента
-		if (array_key_exists('ID', $element)) {
-			$elementId = intval($element['ID']);
-			if($elementId>0){
-				$handler = 'item';
-			}else{
-				return $element;
-			}
-		}elseif (array_key_exists('ID', $element[key($element)])) { // массив $arResult['ITEMS']
-			$handler = 'items';
-			foreach ($element as $key => $value) {
-				$elementId[] = $value['ID'];
-				$elementsTable[$value['ID']] = $key;
-			}
-		}else{
-			return $element;
-		}
+        if (array_key_exists('ID', $element)) {
+            $elementId = intval($element['ID']);
+            if ($elementId > 0) {
+                $handler = 'item';
+            } else {
+                return $element;
+            }
+        } elseif (is_array($element[key($element)]) && array_key_exists('ID', $element[key($element)])) { // массив $arResult['ITEMS']
+            $handler = 'items';
+            foreach ($element as $key => $value) {
+                $elementId[] = $value['ID'];
+                $elementsTable[$value['ID']] = $key;
+            }
+        } else {
+            return $element;
+        }
 	}
 
 	//Массив для кэша URL инфоблока

@@ -391,7 +391,10 @@ if(file_exists($_SERVER["DOCUMENT_ROOT"].'/include/seo_mod.php')) {
         <div id="tabs">
             <ul>
                 <li><a href="#tabs-1">Характеристики</a></li>
-                <? if($arResult['PROPERTIES']["DETAILDESCRIPTION"]['VALUE']['TEXT'] != ""): ?>
+                <?
+
+                $propertyDetailText = $arResult['PROPERTIES']["DETAILDESCRIPTION"]['VALUE']['TEXT'] ?? '';
+                if(!empty($propertyDetailText)): ?>
                 	<li><a href="#tabs-2">Особенности</a></li>
                 <? endif; ?>
                 <!--<li><a href="#tabs-3">Условия покупки</a></li>-->
@@ -458,7 +461,7 @@ if(file_exists($_SERVER["DOCUMENT_ROOT"].'/include/seo_mod.php')) {
                                     } ?>
                                 </tbody>
                             </table>
-                            
+
                             <?=$arResult['DISPLAY_PROPERTIES']['DESCRIPTION']['DISPLAY_VALUE'];?>
                         </div>
                     </div>
@@ -466,9 +469,12 @@ if(file_exists($_SERVER["DOCUMENT_ROOT"].'/include/seo_mod.php')) {
 
             </div>
             <div id="tabs-2">
-                <?= ($arResult['PROPERTIES']["DETAILDESCRIPTION"]['~VALUE']['TYPE'] == 'text' ? '<p>' : '') ?>
-                <?= $arResult['PROPERTIES']["DETAILDESCRIPTION"]['~VALUE']['TEXT'] ?>
-                <?= ($arResult['PROPERTIES']["DETAILDESCRIPTION"]['~VALUE']['TYPE'] == 'text' ? '</p>' : '') ?>
+                <?
+                $propertyDetailTextType =  $arResult['PROPERTIES']["DETAILDESCRIPTION"]['~VALUE']['TYPE'] ?? '';
+
+                if($propertyDetailTextType == 'text' && $propertyDetailText):?>
+                    <p><?=$propertyDetailText?></p>
+                <?endif;?>
             </div>
             <!--<div id="tabs-3">
                <?/* $APPLICATION->IncludeComponent("bitrix:main.include","",Array(
