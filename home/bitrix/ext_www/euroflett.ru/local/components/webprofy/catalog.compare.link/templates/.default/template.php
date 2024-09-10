@@ -1,6 +1,6 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 
-<?if(count($arResult["COMPARE"]) > 0) { ?>
+<? if (is_array($arResult["COMPARE"]) && count($arResult["COMPARE"]) > 0) { ?>
 	<? foreach ($arResult["COMPARE"] as $key => $arCompare) { ?>
 		<!-- <span class="icon icon-compare"></span>
 		<a href="<?= $arCompare['LINK'] ?>" class="compare">Сравнить</a> -->
