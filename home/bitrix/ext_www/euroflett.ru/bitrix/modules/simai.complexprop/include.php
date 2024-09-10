@@ -792,7 +792,7 @@ class CCustomTypeSimaiComplex
 
 class CIBEditSimaiComplexProp
 {
-	function OnBeforePrologHandler()
+	static function OnBeforePrologHandler()
 	{
 		if (is_array($_POST["SPROP"]) || is_array($_FILES["SPROP"]))
 		{
