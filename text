@@ -1,0 +1,2 @@
+1) не обновлять mysql, пока не обновится весь сайт и не будет создан бекап sql
+2) отключи модуль ColorPicker (qcreative.colorpicker)
