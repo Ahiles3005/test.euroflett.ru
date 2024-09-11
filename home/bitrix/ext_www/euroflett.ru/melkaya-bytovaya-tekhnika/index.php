@@ -33,7 +33,7 @@ $SEF_URL_TEMPLATES = array(
 
 $arVariables = array();
 
-$engine = new CComponentEngine($this);
+$engine = new CComponentEngine();
 if (\Bitrix\Main\Loader::includeModule('iblock'))
 {
 	$engine->addGreedyPart("#SECTION_CODE_PATH#");
