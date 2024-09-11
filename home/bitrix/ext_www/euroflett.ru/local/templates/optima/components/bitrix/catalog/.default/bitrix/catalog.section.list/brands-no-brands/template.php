@@ -293,7 +293,7 @@ if (empty($_REQUEST['set_filter']) && empty($_REQUEST['sort'])) {
                 break;
         }
     } ?>
-    <? if (count($arResult["SECTIONS_NO_BRANDS"]) > 0 && $arResult["HIDE_CATEGORIES"] != 1) {
+    <? if (count($arResult["SECTIONS_NO_BRANDS"] ?? []) > 0 && $arResult["HIDE_CATEGORIES"] != 1) {
         $this->SetViewTarget("SubSectionsNoBrands"); ?>
         <div class="catalog-submenu-horizontal catalog-submenu-sections">
 
